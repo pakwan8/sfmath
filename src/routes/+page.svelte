@@ -15,6 +15,9 @@
 
 	let inclusions: Array<number> = [0, 1, 2, 3, 4, 5];
 
+	let lbound: number = -25;
+	let ubound: number = 25;
+	
 	let ans: string;
 	let addChecked: boolean = true;
 	let mulChecked: boolean = true;
@@ -23,7 +26,7 @@
 	let addDivChecked: boolean = true;
 	let distribChecked: boolean = true;
 
-	let prob = generators[random.choice(inclusions)](-25, 25);
+	let prob = generators[random.choice(inclusions)](lbound, ubound);
 	console.log(prob);
 </script>
 
@@ -97,6 +100,12 @@
 			<label for="distrib">&nbsp;Distribution</label>
 			<Helper class="ps-6">a(n + b) = c<br>(a, b, c, n ∈ &#8484;)</Helper>
 		</DropdownItem>
+		<DropdownItem>
+			<input id="lbound" class="pl-1.5 w-[100px] h-10 text-l rounded-lg border-2 border-blue-600" placeholder="lower" bind:value={lbound} type="number"/>
+		</DropdownItem>
+		<DropdownItem>
+			<input id="ubound" class="pl-1.5 w-[100px] h-10 text-l rounded-lg border-2 border-blue-600" placeholder="upper" bind:value={ubound} type="number"/>
+		</DropdownItem>
 	</Dropdown>
 </div>
 <div id="eq" class="centered">
@@ -106,34 +115,33 @@
 	<label for="ansInput">
 		<Equation eq={`${prob.variable}=`} />&nbsp;
 	</label>
-	<Input id="ansInput" class="w-75" bind:value={ans} on:keydown={(e) => {
-			if (e.key === "Enter" && ans !== "") {
-				if (ans === prob.ans.toString()) {
-					alert(true);
-					prob = generators[random.choice(inclusions)](-25, 25);
-					ans = "";
-					console.log(prob);
-				} else {
-					alert(false);
-				}
+	<input id="ansInput" class="w-[150px] text-3xl rounded-lg border-2 border-blue-600" bind:value={ans} on:keydown={(e) => {
+		if (e.key === "Enter" && ans !== "") {
+			if (ans === prob.ans) {
+				alert(true);
+				prob = generators[random.choice(inclusions)](lbound, ubound);
+				ans = "";
+				console.log(prob);
+			} else {
+				alert(false);
 			}
-    }} type="number">
-	</Input>
+		}
+	}} type="number" />
 </div>
 <br />
 <div class="centered">
 	<div id="buttons">
 		<button class="h-[5vh] w-[20vw] text-white rounded-2xl bg-gradient-to-br from-blue-600 to-blue-800" on:click={() => {
-			prob = generators[random.choice(inclusions)](-25, 25);
+			prob = generators[random.choice(inclusions)](lbound, ubound);
 			ans = "";
 			console.log(prob);
 		}}>Generate
 		</button>
 		<button class="h-[5vh] w-[20vw] text-white rounded-2xl bg-gradient-to-br from-blue-600 to-blue-800" on:click={() => {
 			if (ans !== "") {
-				if (ans === prob.ans.toString()) {
+				if (ans === prob.ans) {
 					alert(true);
-					prob = generators[random.choice(inclusions)](-25, 25);
+					prob = generators[random.choice(inclusions)](lbound, ubound);
 					ans = "";
 					console.log(prob);
 				} else {
@@ -147,6 +155,18 @@
 </html>
 
 <style>
+		/* Chrome, Safari, Edge, Opera */
+		input::-webkit-outer-spin-button,
+		input::-webkit-inner-spin-button {
+			-webkit-appearance: none;
+			margin: 0;
+		}
+
+		/* Firefox */
+		input[type=number] {
+			-moz-appearance: textfield;
+		}
+
     .centered {
         display: flex;
         justify-content: center;
