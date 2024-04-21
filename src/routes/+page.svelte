@@ -32,7 +32,7 @@
 
 <html lang="en">
 <div>
-	<button class="h-[4vh] w-[8vw] min-w-[100px] text-white rounded-br-2xl bg-gradient-to-br from-blue-600 to-blue-800">Settings</button>
+	<button class="mt-1.5 h-[4vh] w-[8vw] min-w-[100px] text-white rounded-r-full bg-gradient-to-br from-blue-600 to-blue-800">Settings</button>
 	<Dropdown class="w-50 p-3 space-y-1 text-sm">
 		<DropdownItem class="rounded p-2 hover:bg-gray-100 dark:hover:bg-gray-600">
 			<input id="add" type="checkbox" class="focus:ring-transparent" bind:checked={addChecked} on:change={() => {
@@ -101,10 +101,10 @@
 			<Helper class="ps-6">a(n + b) = c<br>(a, b, c, n ∈ &#8484;)</Helper>
 		</DropdownItem>
 		<DropdownItem>
-			<input id="lbound" class="pl-1.5 w-[100px] h-10 text-l rounded-lg border-2 border-blue-600" placeholder="lower" bind:value={lbound} type="number"/>
+			<input id="lbound" class="pl-1.5 w-[100px] h-10 text-sm rounded-lg border-2 border-blue-600" placeholder="lower" bind:value={lbound} type="number"/>
 		</DropdownItem>
 		<DropdownItem>
-			<input id="ubound" class="pl-1.5 w-[100px] h-10 text-l rounded-lg border-2 border-blue-600" placeholder="upper" bind:value={ubound} type="number"/>
+			<input id="ubound" class="pl-1.5 w-[100px] h-10 text-sm rounded-lg border-2 border-blue-600" placeholder="upper" bind:value={ubound} type="number"/>
 		</DropdownItem>
 	</Dropdown>
 </div>
@@ -115,7 +115,7 @@
 	<label for="ansInput">
 		<Equation eq={`${prob.variable}=`} />&nbsp;
 	</label>
-	<input id="ansInput" class="w-[150px] text-3xl rounded-lg border-2 border-blue-600" bind:value={ans} on:keydown={(e) => {
+	<input id="ansInput" class="w-[150px] text-3xl rounded-md border-2 border-blue-600" bind:value={ans} on:keydown={(e) => {
 		if (e.key === "Enter" && ans !== "") {
 			if (ans === prob.ans) {
 				alert(true);
@@ -131,13 +131,13 @@
 <br />
 <div class="centered">
 	<div id="buttons">
-		<button class="h-[5vh] w-[20vw] text-white rounded-2xl bg-gradient-to-br from-blue-600 to-blue-800" on:click={() => {
+		<button class="h-[5vh] w-[20vw] text-white rounded-md bg-gradient-to-br from-blue-600 to-blue-800" on:click={() => {
 			prob = generators[random.choice(inclusions)](lbound, ubound);
 			ans = "";
 			console.log(prob);
 		}}>Generate
 		</button>
-		<button class="h-[5vh] w-[20vw] text-white rounded-2xl bg-gradient-to-br from-blue-600 to-blue-800" on:click={() => {
+		<button class="h-[5vh] w-[20vw] text-white rounded-md bg-gradient-to-br from-blue-600 to-blue-800" on:click={() => {
 			if (ans !== "") {
 				if (ans === prob.ans) {
 					alert(true);
@@ -176,13 +176,13 @@
 
     #eq {
         height: 20vh;
-        font-size: clamp(2em, 4em, 3em);
+        font-size: 2rem;
     }
 
     #ans {
         display: flex;
         flex-direction: row;
-        font-size: clamp(2em, 4em, 3em);
+        font-size: 2rem;
     }
 
     #buttons {
