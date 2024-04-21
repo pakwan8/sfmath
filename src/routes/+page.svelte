@@ -1,56 +1,129 @@
 <script lang="ts">
-    import { Input, Dropdown, Helper } from 'flowbite-svelte';
-    import Equation from '../components/Equation.svelte';
-    import { test } from '$lib/templates';
+	import { Dropdown, DropdownItem, Helper, Input } from 'flowbite-svelte';
+	import Equation from '../components/Equation.svelte';
+	import { add, mul, div, addMul, addDiv } from '$lib/templates';
+	import { random } from '$lib/number';
 
-    let iterations: number = 3;
-    let divChance: number = 30;
+	const generators: { [key: string]: any } = {
+		0: add,
+		1: mul,
+		2: div,
+		3: addMul,
+		4: addDiv
+	}
 
-    let ans: string;
+	let inclusions: Array<number> = [0, 1, 2, 3, 4];
+
+	let ans: string;
+	let addChecked: boolean = true;
+	let mulChecked: boolean = true;
+	let divChecked: boolean = true;
+	let addMulChecked: boolean = true;
+	let addDivChecked: boolean = true;
+
+	let prob = generators[random.choice(inclusions)](-25, 25);
+	console.log(prob);
 </script>
 
 <html lang="en">
 <div>
-    <button class="h-[4vh] w-[5vw] text-white rounded-br-2xl bg-gradient-to-br from-blue-600 to-blue-800">Settings</button>
-    <Dropdown class="bg-gray-100 w-60 p-3 space-y-1 text-sm rounded-r-lg">
-      <li class="rounded p-2 hover:bg-gray-100 dark:hover:bg-gray-600">
-        <Input placeholder="Iterations" bind:value={iterations}></Input>
-        <Helper class="pt-0.1 pl-0.5">How many modifications to make to the base. (Max 15)</Helper>
-      </li>
-      <li class="rounded p-2 hover:bg-gray-100 dark:hover:bg-gray-600">
-        <Input placeholder="Chance" bind:value={divChance}></Input>
-        <Helper class="pt-0.1 pl-0.5">Chance for a division to occur. (Range 0-100)</Helper>
-      </li>
-    </Dropdown>
+	<button class="h-[4vh] w-[8vw] min-w-[100px] text-white rounded-br-2xl bg-gradient-to-br from-blue-600 to-blue-800">Settings</button>
+	<Dropdown class="w-50 p-3 space-y-1 text-sm">
+		<DropdownItem class="rounded p-2 hover:bg-gray-100 dark:hover:bg-gray-600">
+			<input id="add" type="checkbox" class="focus:ring-transparent" bind:checked={addChecked} on:change={() => {
+				addChecked === true ? inclusions.push(0) : inclusions.splice(inclusions.indexOf(0), 1);
+				if (inclusions.length < 1) {
+					inclusions.push(0);
+					addChecked = true;
+				}
+			}} />
+			<label for="add">&nbsp;Addition</label>
+			<Helper class="ps-5">n + a = b<br>(a, b, n ∈ &#8484;)</Helper>
+		</DropdownItem>
+		<DropdownItem class="rounded p-2 hover:bg-gray-100 dark:hover:bg-gray-600">
+			<input id="mul" type="checkbox" class="focus:ring-transparent" bind:checked={mulChecked} on:change={() => {
+				mulChecked === true ? inclusions.push(1) : inclusions.splice(inclusions.indexOf(1), 1);
+				if (inclusions.length < 1) {
+					inclusions.push(1);
+					mulChecked = true;
+				}
+			}}>
+			<label for="mul">&nbsp;Multiplication</label>
+			<Helper class="ps-5">n × a = b<br>(a, b, n ∈ &#8484;)</Helper>
+		</DropdownItem>
+		<DropdownItem class="rounded p-2 hover:bg-gray-100 dark:hover:bg-gray-600">
+			<input id="div" type="checkbox" class="focus:ring-transparent" bind:checked={divChecked} on:change={() => {
+				divChecked === true ? inclusions.push(2) : inclusions.splice(inclusions.indexOf(2), 1);
+				if (inclusions.length < 1) {
+					inclusions.push(2);
+					divChecked = true;
+				}
+			}}>
+			<label for="div">&nbsp;Division</label>
+			<Helper class="ps-5">n / a = b<br>(a, b, n ∈ &#8484;)</Helper>
+		</DropdownItem>
+		<DropdownItem class="rounded p-2 hover:bg-gray-100 dark:hover:bg-gray-600">
+			<input id="addmul" type="checkbox" class="focus:ring-transparent" bind:checked={addMulChecked} on:change={() => {
+				addMulChecked === true ? inclusions.push(3) : inclusions.splice(inclusions.indexOf(3), 1);
+				if (inclusions.length < 1) {
+					inclusions.push(3);
+					addMulChecked = true;
+				}
+			}}>
+			<label for="addmul">&nbsp;Add + Multiply</label>
+			<Helper class="ps-5">n × a + b = c<br>(a, b, c, n ∈ &#8484;)</Helper>
+		</DropdownItem>
+		<DropdownItem class="rounded p-2 hover:bg-gray-100 dark:hover:bg-gray-600">
+			<input id="adddiv" type="checkbox" class="focus:ring-transparent" bind:checked={addDivChecked} on:change={() => {
+				addDivChecked === true ? inclusions.push(4) : inclusions.splice(inclusions.indexOf(4), 1);
+				if (inclusions.length < 1) {
+					inclusions.push(4);
+					addDivChecked = true;
+				}
+			}}>
+			<label for="adddiv">&nbsp;Add + Divide</label>
+			<Helper class="ps-5">(n + a) / b = c<br>(a, b, c, n ∈ &#8484;)</Helper>
+		</DropdownItem>
+	</Dropdown>
 </div>
 <div id="eq" class="centered">
-    <Equation eq={"a=bx^2"}/>
+	<Equation eq={prob.equation} />
 </div>
 <div id="ans" class="centered">
-    <label for="ansInput">
-        <Equation eq={"a="}/>&nbsp;
-    </label>
-    <Input id="ansInput" class="w-75" bind:value={ans} on:keydown={(e) => {
-        if (e.key === "Enter" && ans !== "") {
-            alert("Input entered");
-        }
+	<label for="ansInput">
+		<Equation eq={`${prob.variable}=`} />&nbsp;
+	</label>
+	<Input id="ansInput" class="w-75" bind:value={ans} on:keydown={(e) => {
+			if (e.key === "Enter" && ans !== "") {
+				if (ans === prob.ans.toString()) {
+					alert(true);
+					prob = generators[random.choice(inclusions)](-25, 25);
+					ans = "";
+					console.log(prob);
+				}
+			}
     }} type="number">
-    </Input>
+	</Input>
 </div>
-<br/>
+<br />
 <div class="centered">
-    <div id="buttons">
-        <button class="h-[5vh] w-[20vw] text-white rounded-2xl bg-gradient-to-br from-blue-600 to-blue-800" on:click={() => {
-				test();
-		}}>Generate (Run test)
-        </button>
-        <button class="h-[5vh] w-[20vw] text-white rounded-2xl bg-gradient-to-br from-blue-600 to-blue-800" on:click={() => {
-			if (ans !== "") {
-				alert("check");
+	<div id="buttons">
+		<button class="h-[5vh] w-[20vw] text-white rounded-2xl bg-gradient-to-br from-blue-600 to-blue-800" on:click={() => {
+			prob = generators[random.choice(inclusions)](-25, 25);
+			ans = "";
+			console.log(prob);
+		}}>Generate
+		</button>
+		<button class="h-[5vh] w-[20vw] text-white rounded-2xl bg-gradient-to-br from-blue-600 to-blue-800" on:click={() => {
+			if (ans === prob.ans.toString()) {
+				alert(true);
+				prob = generators[random.choice(inclusions)](-25, 25);
+				ans = "";
+				console.log(prob);
 			}
 		}}>Check
-        </button>
-    </div>
+		</button>
+	</div>
 </div>
 </html>
 
