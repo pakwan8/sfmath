@@ -93,4 +93,20 @@ export function addDiv(lbound: number, ubound: number): {
 	}
 }
 
+export function distrib(lbound: number, ubound: number): {
+	equation: string;
+	variable: string;
+	ans: number;
+} {
+	const variable: string = random.choice(vars);
+	const targetAns: number = random.pure(lbound, ubound);
+	const addCoefficient: number = random.dni(lbound, ubound);
+	const distCoefficient: number = random.dni(lbound, ubound);
+	const raw: string = `${distCoefficient}*(${variable}+${addCoefficient})=${distCoefficient*(targetAns+addCoefficient)}`;
+	return {
+		equation: preprocess(trySwap(raw)),
+		variable: variable,
+		ans: targetAns
+	}
+}
 

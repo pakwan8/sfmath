@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Dropdown, DropdownItem, Helper, Input } from 'flowbite-svelte';
 	import Equation from '../components/Equation.svelte';
-	import { add, mul, div, addMul, addDiv } from '$lib/templates';
+	import { add, mul, div, addMul, addDiv, distrib } from '$lib/templates';
 	import { random } from '$lib/number';
 
 	const generators: { [key: string]: any } = {
@@ -9,10 +9,11 @@
 		1: mul,
 		2: div,
 		3: addMul,
-		4: addDiv
+		4: addDiv,
+		5: distrib
 	}
 
-	let inclusions: Array<number> = [0, 1, 2, 3, 4];
+	let inclusions: Array<number> = [0, 1, 2, 3, 4, 5];
 
 	let ans: string;
 	let addChecked: boolean = true;
@@ -20,6 +21,7 @@
 	let divChecked: boolean = true;
 	let addMulChecked: boolean = true;
 	let addDivChecked: boolean = true;
+	let distribChecked: boolean = true;
 
 	let prob = generators[random.choice(inclusions)](-25, 25);
 	console.log(prob);
@@ -38,7 +40,7 @@
 				}
 			}} />
 			<label for="add">&nbsp;Addition</label>
-			<Helper class="ps-5">n + a = b<br>(a, b, n ∈ &#8484;)</Helper>
+			<Helper class="ps-6">n + a = b<br>(a, b, n ∈ &#8484;)</Helper>
 		</DropdownItem>
 		<DropdownItem class="rounded p-2 hover:bg-gray-100 dark:hover:bg-gray-600">
 			<input id="mul" type="checkbox" class="focus:ring-transparent" bind:checked={mulChecked} on:change={() => {
@@ -49,7 +51,7 @@
 				}
 			}}>
 			<label for="mul">&nbsp;Multiplication</label>
-			<Helper class="ps-5">n × a = b<br>(a, b, n ∈ &#8484;)</Helper>
+			<Helper class="ps-6">n × a = b<br>(a, b, n ∈ &#8484;)</Helper>
 		</DropdownItem>
 		<DropdownItem class="rounded p-2 hover:bg-gray-100 dark:hover:bg-gray-600">
 			<input id="div" type="checkbox" class="focus:ring-transparent" bind:checked={divChecked} on:change={() => {
@@ -60,7 +62,7 @@
 				}
 			}}>
 			<label for="div">&nbsp;Division</label>
-			<Helper class="ps-5">n / a = b<br>(a, b, n ∈ &#8484;)</Helper>
+			<Helper class="ps-6">n / a = b<br>(a, b, n ∈ &#8484;)</Helper>
 		</DropdownItem>
 		<DropdownItem class="rounded p-2 hover:bg-gray-100 dark:hover:bg-gray-600">
 			<input id="addmul" type="checkbox" class="focus:ring-transparent" bind:checked={addMulChecked} on:change={() => {
@@ -71,7 +73,7 @@
 				}
 			}}>
 			<label for="addmul">&nbsp;Add + Multiply</label>
-			<Helper class="ps-5">n × a + b = c<br>(a, b, c, n ∈ &#8484;)</Helper>
+			<Helper class="ps-6">n × a + b = c<br>(a, b, c, n ∈ &#8484;)</Helper>
 		</DropdownItem>
 		<DropdownItem class="rounded p-2 hover:bg-gray-100 dark:hover:bg-gray-600">
 			<input id="adddiv" type="checkbox" class="focus:ring-transparent" bind:checked={addDivChecked} on:change={() => {
@@ -82,7 +84,18 @@
 				}
 			}}>
 			<label for="adddiv">&nbsp;Add + Divide</label>
-			<Helper class="ps-5">(n + a) / b = c<br>(a, b, c, n ∈ &#8484;)</Helper>
+			<Helper class="ps-6">(n + a) / b = c<br>(a, b, c, n ∈ &#8484;)</Helper>
+		</DropdownItem>
+		<DropdownItem class="rounded p-2 hover:bg-gray-100 dark:hover:bg-gray-600">
+			<input id="distrib" type="checkbox" class="focus:ring-transparent" bind:checked={distribChecked} on:change={() => {
+				distribChecked === true ? inclusions.push(5) : inclusions.splice(inclusions.indexOf(5), 1);
+				if (inclusions.length < 1) {
+					inclusions.push(5);
+					distribChecked = true;
+				}
+			}}>
+			<label for="distrib">&nbsp;Distribution</label>
+			<Helper class="ps-6">a(n + b) = c<br>(a, b, c, n ∈ &#8484;)</Helper>
 		</DropdownItem>
 	</Dropdown>
 </div>
@@ -100,6 +113,8 @@
 					prob = generators[random.choice(inclusions)](-25, 25);
 					ans = "";
 					console.log(prob);
+				} else {
+					alert(false);
 				}
 			}
     }} type="number">
@@ -115,11 +130,15 @@
 		}}>Generate
 		</button>
 		<button class="h-[5vh] w-[20vw] text-white rounded-2xl bg-gradient-to-br from-blue-600 to-blue-800" on:click={() => {
-			if (ans === prob.ans.toString()) {
-				alert(true);
-				prob = generators[random.choice(inclusions)](-25, 25);
-				ans = "";
-				console.log(prob);
+			if (ans !== "") {
+				if (ans === prob.ans.toString()) {
+					alert(true);
+					prob = generators[random.choice(inclusions)](-25, 25);
+					ans = "";
+					console.log(prob);
+				} else {
+					alert(false);
+				}
 			}
 		}}>Check
 		</button>
