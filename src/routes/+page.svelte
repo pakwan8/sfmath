@@ -155,6 +155,18 @@
 </html>
 
 <style>
+		#eq {
+			height: 20vh;
+			font-size: 3rem;
+    }
+
+		@media only screen and (max-width: 768px) {
+			#eq {
+				height: 20vh;
+				font-size: 2rem;
+			}
+		}
+
 		/* Chrome, Safari, Edge, Opera */
 		input::-webkit-outer-spin-button,
 		input::-webkit-inner-spin-button {
@@ -172,11 +184,6 @@
         justify-content: center;
         align-items: center;
         flex-direction: row;
-    }
-
-    #eq {
-        height: 20vh;
-        font-size: 2rem;
     }
 
     #ans {
