@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { Dropdown, DropdownItem, Helper, Input } from 'flowbite-svelte';
+	import { Dropdown, DropdownItem, Helper } from 'flowbite-svelte';
 	import Equation from '../components/Equation.svelte';
-	import { add, mul, div, addMul, addDiv, distrib } from '$lib/templates';
+	import { add, addDiv, addMul, distrib, div, mul } from '$lib/templates';
 	import { random } from '$lib/number';
 
 	const generators: { [key: string]: any } = {
@@ -11,13 +11,13 @@
 		3: addMul,
 		4: addDiv,
 		5: distrib
-	}
+	};
 
 	let inclusions: Array<number> = [0, 1, 2, 3, 4, 5];
 
 	let lbound: number = -25;
 	let ubound: number = 25;
-	
+
 	let ans: string;
 	let addChecked: boolean = true;
 	let mulChecked: boolean = true;
@@ -32,7 +32,10 @@
 
 <html lang="en">
 <div>
-	<button class="mt-1.5 h-[4vh] w-[8vw] min-w-[100px] text-white rounded-r-full bg-gradient-to-br from-blue-600 to-blue-800">Settings</button>
+	<button
+		class="mt-1.5 h-[4vh] w-[8vw] min-w-[100px] text-white rounded-r-full bg-gradient-to-br from-blue-600 to-blue-800">
+		Settings
+	</button>
 	<Dropdown class="w-50 p-3 space-y-1 text-sm">
 		<DropdownItem class="rounded p-2 hover:bg-gray-100 dark:hover:bg-gray-600">
 			<input id="add" type="checkbox" class="focus:ring-transparent" bind:checked={addChecked} on:change={() => {
@@ -101,10 +104,12 @@
 			<Helper class="ps-6">a(n + b) = c<br>(a, b, c, n ∈ &#8484;)</Helper>
 		</DropdownItem>
 		<DropdownItem>
-			<input id="lbound" class="pl-1.5 w-[100px] h-10 text-sm rounded-lg border-2 border-blue-600" placeholder="lower" bind:value={lbound} type="number"/>
+			<input id="lbound" class="pl-1.5 w-[100px] h-10 text-sm rounded-lg border-2 border-blue-600" placeholder="lower"
+			       bind:value={lbound} type="number" />
 		</DropdownItem>
 		<DropdownItem>
-			<input id="ubound" class="pl-1.5 w-[100px] h-10 text-sm rounded-lg border-2 border-blue-600" placeholder="upper" bind:value={ubound} type="number"/>
+			<input id="ubound" class="pl-1.5 w-[100px] h-10 text-sm rounded-lg border-2 border-blue-600" placeholder="upper"
+			       bind:value={ubound} type="number" />
 		</DropdownItem>
 	</Dropdown>
 </div>
@@ -155,41 +160,41 @@
 </html>
 
 <style>
-		#eq {
-			height: 20vh;
-			font-size: 3rem;
+    #eq {
+        height: 20vh;
+        font-size: 3rem;
     }
 
-		#ans {
-			display: flex;
-			flex-direction: row;
-			font-size: 3rem;
-    }
-
-		@media only screen and (max-width: 768px) {
-			#eq {
-				height: 20vh;
-				font-size: 2rem;
-			}
-
-			#ans {
+    #ans {
         display: flex;
         flex-direction: row;
-        font-size: 2rem;
-    	}
-		}
+        font-size: 3rem;
+    }
 
-		/* Chrome, Safari, Edge, Opera */
-		input::-webkit-outer-spin-button,
-		input::-webkit-inner-spin-button {
-			-webkit-appearance: none;
-			margin: 0;
-		}
+    @media only screen and (max-width: 768px) {
+        #eq {
+            height: 20vh;
+            font-size: 2rem;
+        }
 
-		/* Firefox */
-		input[type=number] {
-			-moz-appearance: textfield;
-		}
+        #ans {
+            display: flex;
+            flex-direction: row;
+            font-size: 2rem;
+        }
+    }
+
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
 
     .centered {
         display: flex;
