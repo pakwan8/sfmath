@@ -136,13 +136,13 @@
 <br />
 <div class="centered">
 	<div id="buttons">
-		<button class="h-[5vh] w-[20vw] text-white rounded-md bg-gradient-to-br from-blue-600 to-blue-800" on:click={() => {
+		<button class="h-[5vh] w-[20vw] text-white rounded-full bg-gradient-to-br from-blue-600 to-blue-800" on:click={() => {
 			prob = generators[random.choice(inclusions)](lbound, ubound);
 			ans = "";
 			console.log(prob);
 		}}>Generate
 		</button>
-		<button class="h-[5vh] w-[20vw] text-white rounded-md bg-gradient-to-br from-blue-600 to-blue-800" on:click={() => {
+		<button class="h-[5vh] w-[20vw] text-white rounded-full bg-gradient-to-br from-blue-600 to-blue-800" on:click={() => {
 			if (ans !== "") {
 				if (ans === prob.ans) {
 					alert(true);
